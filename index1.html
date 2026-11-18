@@ -1,0 +1,96 @@
+ <!DOCTYPE html>
+ <html lang="en">
+
+ <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Sound Booster</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	
+	<!-- Styles -->
+	<link rel="stylesheet" href="style.css">
+
+	
+	
+ </head>
+
+ <body>
+
+	<header>
+		<div class="container">
+			<a class="logo" aria-label="Logo">
+				<img src="logo.png" alt="Logo">
+			</a>
+						
+			<audio id = "stream">
+
+			</audio>
+			<div class="button">
+			<button class="button-1" onclick="getLocalStream()" type="button">&#9654; Play Audio</button>
+			<button class="button-1" onclick="pauseAudio()" type="button">&#10074;&#10074; Pause Audio</button> 
+			</div> 
+
+			<script>
+              let globalStream = null;
+
+              /*navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+              .then(stream => {
+                 globalStream = stream; 
+                 })*/
+			  const audioCtx = new (window.AudioContext = window.AudioContext || window.webkitAudioContext)({
+				latencyHint:"interactive",
+				sampleRate:44100
+			  });	
+			  navigator.mediaDevices.getUserMedia({ video: false, audio: {
+				echoCancellation:false,
+				noiseSuppresion:false,
+				autoGainControl:false
+			    }
+			   }).then(stream => {
+                 globalStream = stream; 
+                 })/*.then(stream =>{
+				const source = audioCtx.createMediaStreamSource(stream);
+				const gainNode = audioCtx.createGain();
+				source.connect(gainNode);
+				gainNode.connect(audioCtx.destination); 
+			   })*/	 
+              .catch(err => console.log("Error al pedir permiso: " + err));
+			</script>
+               
+			<script>			
+			function getLocalStream() {				
+				
+				/*navigator.mediaDevices.getUserMedia({video: false, audio: true}).then( function(mediaStream) {
+					var stream = document.getElementById('stream');
+					//var stream = document.querySelector('audio');
+					stream.srcObject = mediaStream;
+					stream.play();
+				}).catch( err => {
+					console.log("u got an error:" + err)
+				});*/
+
+				if (globalStream) {
+                  var streamElement = document.getElementById('stream');
+                  streamElement.srcObject = globalStream; 
+                  streamElement.play();
+                  } else {
+                  console.log("El micrófono aún no ha sido autorizado o inicializado.");
+                    }
+				
+			}
+			function pauseAudio() { 
+			  stream.pause(); 
+			} 
+			
+				
+			</script>
+            
+		</div>
+	</header>
+	
+
+ </body>
+
+ </html>

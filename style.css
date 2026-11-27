@@ -10,7 +10,7 @@ html, body {
 }
 
 .button {
-	padding-top: 15px;
+	padding-top: 60%;
 	margin-top: 0px;
 	position: relative;
     left: 50%;
@@ -70,6 +70,7 @@ h2:first-of-type {
 	margin-left: auto;
     margin-right: auto;
 	width:40%; /*55%;*/
+	padding-top: 50%;
 }
 
 img {
